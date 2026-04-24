@@ -22,9 +22,11 @@ public class Driver {
     // Haydovchining familiyasi
     private String lastName;
 
-    // Telefon raqami (ixtiyoriy, lekin foydali)
+    // Telefon raqami
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
 
     // Haydovchilik guvohnomasi raqami
+    @Column(unique = true, nullable = false)
     private String licenseNumber;
 }

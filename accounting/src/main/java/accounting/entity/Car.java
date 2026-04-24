@@ -1,5 +1,10 @@
 package accounting.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -21,10 +26,10 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private CarModel carModel;      // Modeli
 
     private Double tankCapacity;    // Bak sig‘imi (litr)
-    private Double annualLimit;
 
     private Double fuelSpentYtd;    // Yil boshidan yoqilg‘i sarfi
     private Long odometerStartYear; // Yil boshida odometr ko‘rsatkichi
@@ -32,7 +37,8 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "driver_id")
-    private Driver driverName;      // Mashina haydovchisi
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Driver driver;      // Mashina haydovchisi
 
     // Bosib o‘tgan masofasi
     public Long getDistanceTraveled() {
@@ -54,7 +60,7 @@ public class Car {
 
     // Real sarfni model me'yori bilan solishtirish
     public Double getConsumptionDeviation() {
-        Double realConsumption = getAverageConsumption(); // Biz avval yozgan real sarf metodi
+        Double realConsumption = getAverageConsumption();
         Double norm = (carModel != null) ? carModel.getFuelNorm() : 0.0;
 
         if (norm <= 0) return 0.0;
@@ -68,8 +74,50 @@ public class Car {
     public CarType getType() {
         return (carModel != null) ? carModel.getType() : null;
     }
+
     // Yoqilg‘i turini oladi
+    @JsonIgnore
     public Fuel getFuel() {
         return (carModel != null) ? carModel.getFuel() : null;
+    }
+
+    // JSON javobida faqat yoqilg'i nomi chiqishi uchun
+    @JsonGetter("fuel")
+    public String getFuelName() {
+        Fuel fuel = getFuel();
+        return (fuel != null) ? fuel.getName() : null;
+    }
+
+    // JSON javobida faqat model nomi chiqishi uchun
+
+    @JsonProperty("carModel")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    public String getCarModelName() {
+        return (carModel != null) ? carModel.getName() : null;
+    }
+
+    // JSON javobida faqat haydovchi ismi va familiyasini chiqarishi uchun
+    @JsonProperty("driver")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    public String getDriverName() {
+        return (driver != null) ? driver.getFirstName() + " " + driver.getLastName() : null;
+    }
+
+    // --- ID orqali ma'lumot qo'shish uchun ---
+
+    @JsonProperty("carModel")
+    public void setCarModelById(Long id) {
+        if (id != null) {
+            this.carModel = new CarModel();
+            this.carModel.setId(id);
+        }
+    }
+
+    @JsonProperty("driver")
+    public void setDriverById(Long id) {
+        if (id != null) {
+            this.driver = new Driver();
+            this.driver.setId(id);
+        }
     }
 }

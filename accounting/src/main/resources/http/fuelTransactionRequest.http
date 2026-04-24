@@ -1,0 +1,12 @@
+### New fuel transaction
+POST http://localhost:8080/api/transactions/refuel
+Content-Type: application/json
+
+{
+  "car": 6,
+  "fuelAmount": 50.0,
+  "odometerAtRefill": 50100
+}
+
+### Fuel transaction history
+GET localhost:8080/api/transactions/history

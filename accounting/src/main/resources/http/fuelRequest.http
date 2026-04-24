@@ -3,9 +3,9 @@ POST http://localhost:8080/api/fuels/add
 Content-Type: application/json
 
 {
-  "name": "AI-100",
-  "pricePerLiter": 19000.0,
-  "currentStock": 5000.0,
+  "name": "Dizel",
+  "pricePerLiter": 13000.0,
+  "currentStock": 7000.0,
   "totalCapacity": 10000.0
 }
 

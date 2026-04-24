@@ -3,9 +3,13 @@ POST localhost:8080/api/car/models/add
 Content-Type: application/json
 
 {
-  "name": "Chevrolet Captiva",
-  "type": "LIGHT",
-  "annualLimit": 20000.0,
-  "fuelNorm": 15.0
+  "name": "Kamaz-4326",
+  "type": "HEAVY",
+  "annualLimit": 40000.0,
+  "fuelNorm": 32.0,
+  "fuel": 4
 }
+
+### Car models
+GET localhost:8080/api/car/models/all
 

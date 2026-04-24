@@ -3,11 +3,15 @@ POST http://localhost:8080/api/cars/add
 Content-Type: application/json
 
 {
-  "plateNumber": "01A999AA",
-  "odometerStartYear": 17400,
-  "odometerCurrent": 120000,
+  "plateNumber": "01K426AA",
+  "tankCapacity": 300.0,
+  "odometerStartYear": 50000,
+  "odometerCurrent": 50000,
   "fuelSpentYtd": 0.0,
-  "driver": {"id": 1},
-  "carModel": {"id": 1},
-  "fuel": {"id": 1}
+  "driver": 4,
+  "carModel": 4
 }
+
+
+### Cars
+GET http://localhost:8080/api/cars/all

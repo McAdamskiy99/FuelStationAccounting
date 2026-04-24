@@ -3,10 +3,10 @@ POST http://localhost:8080/api/drivers/add
 Content-Type: application/json
 
 {
-  "firstName": "Javlon",
-  "lastName": "Umarov",
-  "phoneNumber": "+998946534853",
-  "licenseNumber": "AA157766"
+  "firstName": "Dilshod",
+  "lastName": "Valijonov",
+  "phoneNumber": "+998978895563",
+  "licenseNumber": "AA159916"
 }
 
 ### All drivers

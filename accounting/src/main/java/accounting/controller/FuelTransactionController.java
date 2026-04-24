@@ -1,8 +1,11 @@
 package accounting.controller;
 
+import accounting.entity.FuelTransaction;
 import accounting.service.FuelTransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -13,9 +16,17 @@ public class FuelTransactionController {
 
     // Yoqilg'i quyish uchun POST so'rovi
     @PostMapping("/refuel")
-    public String refuel(@RequestParam Long carId,
-                         @RequestParam Double amount,
-                         @RequestParam Long odometer) {
-        return transactionService.performRefuel(carId, amount, odometer);
+    public String refuel(@RequestBody FuelTransaction transaction) {
+        return transactionService.performRefuel(
+                transaction.getCar().getId(),
+                transaction.getFuelAmount(),
+                transaction.getOdometerAtRefill()
+        );
     }
+
+    @GetMapping("/history")
+    public List<FuelTransaction> getHistory() {
+        return transactionService.getAllTransactions();
+    }
+
 }

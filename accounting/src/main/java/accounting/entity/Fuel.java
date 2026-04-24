@@ -16,7 +16,7 @@ public class Fuel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Yoqilg'i nomi (masalan: Ai-92, Diesel)
+    // Yoqilg'i nomi (masalan: Ai-92, Dizel)
     private String name;
 
     // 1 litr uchun narxi
@@ -30,7 +30,7 @@ public class Fuel {
 
     // --- Hisoblanadigan maydon ---
 
-    // Sisternadagi bo'sh joyni hisoblash (O'zbekcha: Bo'sh joy miqdori)
+    // Sisternadagi bo'sh joyni hisoblash (Bo'sh joy miqdori)
     public Double getAvailableSpace() {
         if (totalCapacity == null || currentStock == null) return 0.0;
         return totalCapacity - currentStock;

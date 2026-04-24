@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,12 +20,23 @@ public class FuelTransactionService {
     private final CarRepository carRepository;
     private final FuelRepository fuelRepository;
 
-    @Transactional // O'zbekcha: Tranzaksiya xavfsizligini ta'minlash uchun (yo hammasi saqlanadi, yo hech narsa)
+    // Barcha tranzaksiyalar tarixini olish
+    public List<FuelTransaction> getAllTransactions() {
+        return transactionRepository.findAll();
+    }
+
+    @Transactional // Tranzaksiya xavfsizligini ta'minlash uchun (yo hammasi saqlanadi, yo hech narsa)
     public String performRefuel(Long carId, Double amount, Long currentOdometer) {
 
         // 1. Mashinani bazadan olish
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new RuntimeException("Mashina topilmadi!"));
+
+        // Agar quyilayotgan miqdor mashina bakidan katta bo'lsa
+        if (amount > car.getTankCapacity()) {
+            return "Xatolik: Quyilayotgan miqdor (" + amount + " l) mashina baki sig'imidan ("
+                    + car.getTankCapacity() + " l) ko'p!";
+        }
 
         // 2. Mashinaga biriktirilgan yoqilg'ini olish
         Fuel fuel = car.getCarModel().getFuel(); // Mashina modeliga mos yoqilg'ini aniqlaymiz
@@ -42,8 +54,8 @@ public class FuelTransactionService {
 
 
         // 4. Yillik limitni tekshirish
-        if (car.getFuelSpentYtd() + amount > car.getCarModel().getAnnualLimit()) {
-            return "Xatolik: Ushbu model uchun belgilangan yillik limit oshib ketdi!";
+        if (currentOdometer - car.getOdometerStartYear() > car.getCarModel().getAnnualLimit()) {
+            return "Xatolik: Ushbu model uchun belgilangan yillik bosib o‘tadigan masofa limiti oshib ketgan!";
         }
 
 

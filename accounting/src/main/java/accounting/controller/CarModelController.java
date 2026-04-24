@@ -18,8 +18,9 @@ public class CarModelController {
         return carModelService.saveModel(model);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all") //
     public List<CarModel> getAll() {
         return carModelService.getAllModels();
     }
+
 }
