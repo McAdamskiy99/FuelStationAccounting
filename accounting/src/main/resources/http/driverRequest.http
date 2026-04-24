@@ -1,0 +1,13 @@
+### New driver
+POST http://localhost:8080/api/drivers/add
+Content-Type: application/json
+
+{
+  "firstName": "Javlon",
+  "lastName": "Umarov",
+  "phoneNumber": "+998946534853",
+  "licenseNumber": "AA157766"
+}
+
+### All drivers
+GET http://localhost:8080/api/drivers/all

@@ -1,0 +1,11 @@
+### New car model
+POST localhost:8080/api/car/models/add
+Content-Type: application/json
+
+{
+  "name": "Chevrolet Captiva",
+  "type": "LIGHT",
+  "annualLimit": 20000.0,
+  "fuelNorm": 15.0
+}
+
